@@ -1,6 +1,5 @@
 import React, {Component} from "react"
 import {ProductConsumer} from "./context"
-import styled from "styled-components"
 import { Link } from "react-router-dom"
 import { ButtonContainer } from "./Button"
 
@@ -52,7 +51,8 @@ export default class Details extends Component {
                                             cart
                                             disabled={inCart?true:false}
                                             onClick={()=>{
-                                                value.addToCart(id)
+                                                value.addToCart(id);
+                                                value.openModal(id)
                                             }}>
                                             {inCart? 'inCart':'add to cart'}
                                         </ButtonContainer>
