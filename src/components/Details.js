@@ -4,9 +4,6 @@ import { Link } from "react-router-dom"
 import { ButtonContainer } from "./Button"
 
 export default class Details extends Component {
-    constructor(props) {
-        super(props)
-    }
     render() {
 
         return (
