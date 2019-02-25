@@ -9,12 +9,12 @@ class ProductProvider extends Component {
     state = {
         products: [],
         detailProduct:detailProduct,
-        cart: storeProducts,
+        cart: [],
         modalOpen:false,
         modalProduct:detailProduct,
-        cartSubTotal:10,
-        cartTax:20,
-        cartTotal:30,
+        cartSubTotal:0,
+        cartTax:0,
+        cartTotal:0,
     };
     componentDidMount() {
         this.setProducts();
@@ -50,9 +50,12 @@ class ProductProvider extends Component {
         product.count = 1;
         const price = product.price;
         product.total = price;
-        this.setState(()=>{
-            return {products:tempProducts,cart:[...this.state.cart,product]}  
-        },()=>{console.log(this.state);
+        this.setState(
+            ()=>{
+                return {products:tempProducts,cart:[...this.state.cart,product]}  
+        },
+        ()=>{
+            this.addTotals();
         });
     }
 
@@ -82,8 +85,31 @@ class ProductProvider extends Component {
     }
 
     clearCart = () => {
-        console.log("cart was cleared")
+        this.setState(() => {
+            return {
+                cart: []
+            }
+        }, () => {
+            this.setProducts();
+            this.addTotals()
+        })
     }
+
+    addTotals = () => {
+        let subTotal = 0;
+        this.state.cart.map(item => (subTotal += item.total))
+        const tempTax = subTotal * 0.1;
+        const tax = parseFloat(tempTax.toFixed(2));
+        const total = subTotal + tax;
+        this.setState(() => {
+            return {
+                cartSubTotal:subTotal,
+                cartTax:tax,
+                cartTotal:total
+            }
+        })
+    }
+
     render() {
         return (
             <ProductContext.Provider 
